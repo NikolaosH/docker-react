@@ -1,0 +1,12 @@
+language: generic
+#Tell Travis to gain super user level permision to execute this build
+sude: required
+#Tell Travis CI that we need docker cli pre-installed
+services:
+    - docker
+#We are tagging the docker build in order to be able to refer to the output image.
+before_install:
+  - docker build -t nikolaosh/docker-react -f Dockerfile.dev .
+#Tell Travis how to run the test suite
+script:
+  - docker run -e CI=true nikolaosh/docker-react npm run test -- --coverage
